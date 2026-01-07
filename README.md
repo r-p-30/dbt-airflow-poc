@@ -1,0 +1,1 @@
+This is a demo poc project for dbt airflow with snowflake for learning purposes
