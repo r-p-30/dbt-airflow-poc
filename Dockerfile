@@ -1,8 +1,5 @@
-FROM apache/airflow:3.1.0
+FROM quay.io/astronomer/astro-runtime:12.6.0
 
-COPY requirements.txt /requirements.txt
-USER airflow
-
-# Uninstall all existing Python packages except pip, setuptools, and wheel
-RUN pip freeze | grep -v "pip==" | grep -v "setuptools==" | grep -v "wheel==" | xargs pip uninstall -y && \
-    pip install --no-cache-dir --use-deprecated=legacy-resolver -r /requirements.txt
+# Install dbt-snowflake in a virtual environment to avoid dependency conflicts
+RUN python -m venv dbt_venv && source dbt_venv/bin/activate && \
+    pip install --no-cache-dir dbt-snowflake==1.8.0 && deactivate
